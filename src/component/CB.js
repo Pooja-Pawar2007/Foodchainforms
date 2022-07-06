@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { Form, Table, Row, Col } from "react-bootstrap";
 
 export default function CB() {
-  const [fname, setName] = useState({
+  const [formdata, setformdata] = useState({
     Assessment: "",
 
     Project_Number: "",
@@ -15,18 +15,36 @@ export default function CB() {
 
     Status: "",
 
-    Name_Sign: "",
+    Name:"",
+    Sign: "",
 
     date: "",
   });
 
-  const inputEvent = (event) => {
-    console.log(event.target.value);
-    setName(event.target.value);
-  };
-
+  const inputEvent = (event, i) => {
+    console.log(i)
+    if(i >= 0){
+      console.log("hello")
+      let temparr = [...formdata.NumberOfMembers]
+      console.log(temparr)
+      temparr[i][event.target.name] = event.target.value
+      let Newformdata = {
+        ...formdata,
+        NumberOfMembers: [...temparr]
+      }
+      setformdata(Newformdata)
+    }else{      
+      let Newformdata = {
+        ...formdata,
+        [event.target.name]: event.target.value,
+      };
+      setformdata(Newformdata);
+    }
+   };
+   useEffect(() => {}, [formdata]);
   return (
     <div className="container card card-body  ">
+       {JSON.stringify(formdata)}
       <h6 className="center">To be completed by CB:</h6>
 
       <div className="table table-striped table-bordered table-sm">
@@ -40,7 +58,7 @@ export default function CB() {
                 <input
                   name="Assessment"
                   onChange={inputEvent}
-                  value={fname.Assessment}
+                  value={formdata.Assessment}
                   type="text"
                   placeholder=""
                 />
@@ -54,7 +72,7 @@ export default function CB() {
                 <input
                   name="Project_Number"
                   onChange={inputEvent}
-                  value={fname.Project_Number}
+                  value={formdata.Project_Number}
                   type="text"
                   placeholder=""
                 />
@@ -68,7 +86,7 @@ export default function CB() {
                 <input
                   name="Received_Date"
                   onChange={inputEvent}
-                  value={fname.Received_Date}
+                  value={formdata.Received_Date}
                   type="text"
                   placeholder=""
                 />
@@ -87,7 +105,7 @@ export default function CB() {
                     <Form.Select
                       name=" Confirmation"
                       onChange={inputEvent}
-                      value={fname.Confirmation}
+                      value={formdata.Confirmation}
                     >
                       <option value="Yes">Yes</option>
                       <option value="No">No</option>
@@ -111,7 +129,7 @@ export default function CB() {
                     <Form.Select
                       name=" FCID"
                       onChange={inputEvent}
-                      value={fname.FCID}
+                      value={formdata.FCID}
                     >
                       <option value="Yes">Yes</option>
                       <option value="No">No</option>
@@ -133,7 +151,7 @@ export default function CB() {
                     <Form.Select
                       name=" Status"
                       onChange={inputEvent}
-                      value={fname.Status}
+                      value={formdata.Status}
                     >
                       <option value="Yes">Yes</option>
                       <option value="No">No</option>
@@ -144,14 +162,26 @@ export default function CB() {
             </tr>
             <tr>
               <th className="col-md-4" name="sno">
-                Name & Signature application reviewer:
+                Name application reviewer:
+              </th>
+              <th className="col-md-4" >
+                <input
+                  name="Name"
+                  onChange={inputEvent}
+                  value={formdata.Name}
+                  type="text"
+                  placeholder=""
+                />
+              </th>
+              <th className="col-md-4" name="sno">
+                Signature application reviewer:
               </th>
               <th>
                 <input
-                  name="Name_Sign"
+                  name="Sign"
                   onChange={inputEvent}
-                  value={fname.Name_Sign}
-                  type="text"
+                  value={formdata.Sign}
+                  type="file"
                   placeholder=""
                 />
               </th>
@@ -165,7 +195,7 @@ export default function CB() {
                   name="date
                   "
                   onChange={inputEvent}
-                  value={fname.date
+                  value={formdata.date
                   }
                   type="date"
                   placeholder=""

@@ -1,19 +1,26 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 
 export default function DescT4() {
-  const [fname, setName] = useState({
+  const [formdata,  setformdata] = useState({
     Name: "",
-    Sign: "",
+    sign: "",
     Date: "",
   });
 
-  const inputEvent = (event) => {
-    console.log(event.target.value);
-    setName(event.target.value);
-  };
+  const inputEvent = (event, datasheet) => {
+    event.preventDefault()
+     let Newformdata = {
+ 
+       ...formdata,
+       [event.target.name]: event.target.value,
+     };
+     setformdata(Newformdata);
+   };
+  useEffect(() => {}, [formdata]);
 
   return (
     <section className="section">
+       {JSON.stringify(formdata)}
       <div className="container card card-body ">
         <p>
           Confirmation:
@@ -32,7 +39,7 @@ export default function DescT4() {
             placeholder="Enter Farmer’s name  "
             name="Name"
             onChange={inputEvent}
-            value={fname.Name}
+            value={formdata.Name}
             required="required"
           />
         </div>
@@ -41,11 +48,11 @@ export default function DescT4() {
 
           <input
             className="w-50 my-2"
-            type="text"
+            type="file"
             placeholder="Signature  "
             name="sign"
             onChange={inputEvent}
-            value={fname.sign}
+            value={formdata.sign}
             required="required"
           />
         </div>
@@ -58,7 +65,7 @@ export default function DescT4() {
             placeholder="Date  "
             name="Date"
             onChange={inputEvent}
-            value={fname.Date}
+            value={formdata.Date}
             required="required"
           />
         </div>

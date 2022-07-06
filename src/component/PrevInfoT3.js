@@ -8,39 +8,127 @@ import Input from "react-bootstrap/InputGroup";
 
 export default function PrevInfoT3() {
   const [formdata, setformdata] = useState({
+    Name: "",
+    sign: "",
+    Date: "",
+
     certified: "",
     Standard: "",
     body: "",
-   reason:"",
+    reason: "",
     registration: "",
     status: "",
     reason_d: "",
   });
-  const handleChangeData = (event, i) => {
-    console.log(i);
-    if (i >= 0) {
-      console.log("hello");
-      let temparr = [...formdata.NumberOfMembers];
-      console.log(temparr);
-      temparr[i][event.target.name] = event.target.value;
-      let Newformdata = {
-        ...formdata,
-        NumberOfMembers: [...temparr],
-      };
-      setformdata(Newformdata);
-    } else {
-      let Newformdata = {
-        ...formdata,
-        [event.target.name]: event.target.value,
-      };
-      setformdata(Newformdata);
-    }
+  const inputEvent = (event, datasheet) => {
+    event.preventDefault();
+    let Newformdata = {
+      ...formdata,
+      [event.target.name]: event.target.value,
+    };
+    setformdata(Newformdata);
   };
 
   useEffect(() => {}, [formdata]);
 
+  const SendToApi = () => {
+    if (
+      formdata.Name === "" ||
+      // formdata.sign === "" ||
+      formdata.Date === "" ||
+      formdata.certified === "" ||
+      formdata.Standard === "" ||
+      formdata.body === "" ||
+      formdata.reason === "" ||
+      formdata.registration === "" ||
+      formdata.status === "" ||
+      formdata.reason_d === ""
+    ) {
+      alert("Enter All details");
+    } else {
+      fetch(
+        "https://foodchainid.herokuapp.com/foodchainid_form1/addprevcert",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            Name: formdata.Name,
+            sign: "sign",
+            Date: formdata.Date,
+
+            certified: formdata.certified==="Yes"?true:false,
+            Standard: formdata.Standard,
+            body: formdata.body,
+            reason: formdata.reason,
+            registration: formdata.registration,
+            status: formdata.status==="Yes"?true:false,
+            reason_d: formdata.reason_d,
+            userId: "62c403e18e1a710854e6e856",
+          }),
+        }
+      ).then((res) => {
+        res.json().then((data) => {
+          console.log(data);
+        });
+      });
+    }
+  };
+
   return (
     <section className="section">
+      {JSON.stringify(formdata)}
+
+      <div className="container card card-body ">
+        <p>
+          Confirmation:
+          <br></br>
+          This is to confirm that the information that are filled in the
+          questionnaire is complete and accurate to the best of my knowledge.
+        </p>
+        <br></br>
+
+        <div className="form-group col-md-6 d-flex justify-content-between ">
+          <label htmlFor="">Name</label>
+
+          <input
+            className="w-50 my-2"
+            type="text"
+            placeholder="Enter Farmer’s name  "
+            name="Name"
+            onChange={inputEvent}
+            value={formdata.Name}
+            required="required"
+          />
+        </div>
+        <div className="form-group col-md-6 d-flex justify-content-between ">
+          <label htmlFor="">Signature</label>
+
+          <input
+            className="w-50 my-2"
+            type="file"
+            placeholder="Signature  "
+            name="sign"
+            onChange={inputEvent}
+            value={formdata.sign}
+            required="required"
+          />
+        </div>
+        <div className="form-group col-md-6 d-flex justify-content-between ">
+          <label htmlFor="">Date</label>
+
+          <input
+            className="w-50 my-2"
+            type="date"
+            placeholder="Date  "
+            name="Date"
+            onChange={inputEvent}
+            value={formdata.Date}
+            required="required"
+          />
+        </div>
+      </div>
       <div className="container card card-body">
         <h6>
           <center>Previous Certification Information (if any)</center>
@@ -54,7 +142,7 @@ export default function PrevInfoT3() {
               <Form.Select
                 aria-label="Default select example"
                 value={formdata.certified}
-                onChange={handleChangeData}
+                onChange={inputEvent}
                 name="certified"
               >
                 <option value="Yes">Yes</option>
@@ -70,7 +158,7 @@ export default function PrevInfoT3() {
               type="text"
               placeholder="Name "
               name="Standard"
-              onChange={handleChangeData}
+              onChange={inputEvent}
               value={formdata.Standard}
               required="required"
             />
@@ -83,7 +171,7 @@ export default function PrevInfoT3() {
               type="text"
               placeholder="body "
               name="body"
-              onChange={handleChangeData}
+              onChange={inputEvent}
               value={formdata.body}
               required="required"
             />
@@ -97,7 +185,7 @@ export default function PrevInfoT3() {
               type="text"
               placeholder="Number "
               name="registration"
-              onChange={handleChangeData}
+              onChange={inputEvent}
               value={formdata.registration}
               required="required"
             />
@@ -110,7 +198,7 @@ export default function PrevInfoT3() {
               type="text"
               placeholder=" "
               name="reason"
-              onChange={handleChangeData}
+              onChange={inputEvent}
               value={formdata.reason}
               required="required"
             />
@@ -122,9 +210,10 @@ export default function PrevInfoT3() {
             <Form.Select
               aria-label="Default select example"
               value={formdata.status}
-              onChange={handleChangeData}
-              name="certified"
+              onChange={inputEvent}
+              name="status"
             >
+              <option>select</option>
               <option value="Yes">Yes</option>
               <option value="No">No</option>
             </Form.Select>
@@ -139,12 +228,19 @@ export default function PrevInfoT3() {
               type="text"
               placeholder=" "
               name="reason_d"
-              onChange={handleChangeData}
+              onChange={inputEvent}
               value={formdata.reason_d}
               required="required"
             />
           </div>
         </Form.Group>
+        <button
+              onClick={() => {
+                SendToApi();
+              }}
+            >
+              Submit
+            </button>
         <label>
           (Note: Attach NOC Letter (copy of NOC from TraceNet), Scope
           Certificate from previous CB, Last report received from the previous

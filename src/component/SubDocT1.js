@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Table, Row, Col } from "react-bootstrap";
 
 export default function SubDocT1() {
-  const [fname, setName] = useState({
+  const [formdata, setformdata] = useState({
     Name: "",
     pan: "",
     contact: "",
@@ -19,14 +19,32 @@ export default function SubDocT1() {
     Aadhar: "",
   });
 
-  const inputEvent = (event) => {
-    console.log(event.target.value);
-    setName(event.target.value);
+  const inputEvent = (event, i) => {
+    console.log(i);
+    if (i >= 0) {
+      console.log("hello");
+      let temparr = [...formdata.NumberOfMembers];
+      console.log(temparr);
+      temparr[i][event.target.name] = event.target.value;
+      let Newformdata = {
+        ...formdata,
+        NumberOfMembers: [...temparr],
+      };
+      setformdata(Newformdata);
+    } else {
+      let Newformdata = {
+        ...formdata,
+        [event.target.name]: event.target.value,
+      };
+      setformdata(Newformdata);
+    }
   };
+
+  useEffect(() => {}, [formdata]);
   return (
     
       <div className="container card card-body ">
-       
+        {JSON.stringify(formdata)}
             <h6> Document Check Records </h6>
             <hr />
             <Table estriped bordered hover size="sm">
@@ -60,7 +78,7 @@ export default function SubDocT1() {
                         <Form.Select
                           name=" TypesofBusiness"
                           onChange={inputEvent}
-                          value={fname.TypesofBusiness}
+                          value={formdata.TypesofBusiness}
                         >
                           <option value="Yes">Yes</option>
                           <option value="No">No</option>
@@ -73,7 +91,7 @@ export default function SubDocT1() {
                     <input
                       name="name"
                       onChange={inputEvent}
-                      value={fname.Name}
+                      value={formdata.Name}
                       type="text"
                       placeholder="2016"
                     />
@@ -94,7 +112,7 @@ export default function SubDocT1() {
                         <Form.Select
                           name=" TypesofBusiness"
                           onChange={inputEvent}
-                          value={fname.TypesofBusiness}
+                          value={formdata.TypesofBusiness}
                         >
                           <option value="Yes">Yes</option>
                           <option value="No">No</option>
@@ -107,7 +125,7 @@ export default function SubDocT1() {
                     <input
                       name="name"
                       onChange={inputEvent}
-                      value={fname.Name}
+                      value={formdata.Name}
                       type="text"
                       placeholder="2016"
                     />
@@ -128,7 +146,7 @@ export default function SubDocT1() {
                         <Form.Select
                           name=" TypesofBusiness"
                           onChange={inputEvent}
-                          value={fname.TypesofBusiness}
+                          value={formdata.TypesofBusiness}
                         >
                           <option value="Yes">Yes</option>
                           <option value="No">No</option>
@@ -141,7 +159,7 @@ export default function SubDocT1() {
                     <input
                       name="name"
                       onChange={inputEvent}
-                      value={fname.Name}
+                      value={formdata.Name}
                       type="text"
                       placeholder="2016"
                     />
@@ -162,7 +180,7 @@ export default function SubDocT1() {
                         <Form.Select
                           name=" TypesofBusiness"
                           onChange={inputEvent}
-                          value={fname.TypesofBusiness}
+                          value={formdata.TypesofBusiness}
                         >
                           <option value="Yes">Yes</option>
                           <option value="No">No</option>
@@ -175,7 +193,7 @@ export default function SubDocT1() {
                     <input
                       name="name"
                       onChange={inputEvent}
-                      value={fname.Name}
+                      value={formdata.Name}
                       type="text"
                       placeholder="2016"
                     />
@@ -196,7 +214,7 @@ export default function SubDocT1() {
                         <Form.Select
                           name=" TypesofBusiness"
                           onChange={inputEvent}
-                          value={fname.TypesofBusiness}
+                          value={formdata.TypesofBusiness}
                         >
                           <option value="Yes">Yes</option>
                           <option value="No">No</option>
@@ -209,7 +227,7 @@ export default function SubDocT1() {
                     <input
                       name="name"
                       onChange={inputEvent}
-                      value={fname.Name}
+                      value={formdata.Name}
                       type="text"
                       placeholder="2016"
                     />
@@ -233,7 +251,7 @@ export default function SubDocT1() {
                         <Form.Select
                           name=" TypesofBusiness"
                           onChange={inputEvent}
-                          value={fname.TypesofBusiness}
+                          value={formdata.TypesofBusiness}
                         >
                           <option value="Yes">Yes</option>
                           <option value="No">No</option>
@@ -246,7 +264,7 @@ export default function SubDocT1() {
                     <input
                       name="name"
                       onChange={inputEvent}
-                      value={fname.Name}
+                      value={formdata.Name}
                       type="text"
                       placeholder="2016"
                     />
@@ -270,7 +288,7 @@ export default function SubDocT1() {
                         <Form.Select
                           name=" TypesofBusiness"
                           onChange={inputEvent}
-                          value={fname.TypesofBusiness}
+                          value={formdata.TypesofBusiness}
                         >
                           <option value="Yes">Yes</option>
                           <option value="No">No</option>
@@ -283,7 +301,7 @@ export default function SubDocT1() {
                     <input
                       name="name"
                       onChange={inputEvent}
-                      value={fname.Name}
+                      value={formdata.Name}
                       type="text"
                       placeholder="2016"
                     />
@@ -307,7 +325,7 @@ export default function SubDocT1() {
                         <Form.Select
                           name=" TypesofBusiness"
                           onChange={inputEvent}
-                          value={fname.TypesofBusiness}
+                          value={formdata.TypesofBusiness}
                         >
                           <option value="Yes">Yes</option>
                           <option value="No">No</option>
@@ -320,7 +338,7 @@ export default function SubDocT1() {
                     <input
                       name="name"
                       onChange={inputEvent}
-                      value={fname.Name}
+                      value={formdata.Name}
                       type="text"
                       placeholder="2016"
                     />

@@ -20,7 +20,7 @@ function App() {
   return (
     
     <div className="container card card-body "  >
-      <center>01 Certification Form</center>
+      <center> <strong>01 Certification Form </strong></center>
     <div className="container card card-body ">
       <Accordion>
         <Accordion.Item eventKey="0">
@@ -29,6 +29,7 @@ function App() {
             <Table1 />
           </Accordion.Body>
         </Accordion.Item>
+        
         <Accordion.Item eventKey="1">
           <Accordion.Header>Certification Information</Accordion.Header>
           <Accordion.Body>
@@ -64,13 +65,7 @@ function App() {
           </Accordion.Body>
         </Accordion.Item>
 
-        <Accordion.Item eventKey="5">
-          <Accordion.Header> Confirmation:</Accordion.Header>
-          <Accordion.Body>
-            <DescT4 />
-          </Accordion.Body>
-        </Accordion.Item>
-
+       
         <Accordion.Item eventKey="6">
           <Accordion.Header> Important Information</Accordion.Header>
           <Accordion.Body>
@@ -108,6 +103,7 @@ function App() {
             <Footer />
           </Accordion.Body>
         </Accordion.Item>
+
       </Accordion>
     </div>
     </div>

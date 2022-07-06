@@ -1,42 +1,105 @@
 import React from "react";
 import { Form, Table } from "react-bootstrap";
 import { BsPlusSquare, BsDashSquare } from "react-icons/bs";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function UnitA() {
-  const [fname, setName] = useState({
-    Name:"",
-    Area:"",
-    Area_Under:"",
-    Survey:"",
-    GPS:"",
-    
-    Seed :"",
-    Pest:"",
-    Crops :"",
-    //Crops_grown 
-    K_main:"",
-     K_Intercrop:"",
-     R_main:"",
-      R_intercrop:"",
-      Z_main:"",
-       Z_Intercrop:"",
-       P_main :"",
-       P_intercrop:"",
-       Details :"",
-Crop_History :"",
-
-
-    
+  const [formdata, setformdata] = useState({
+    Name: "",
+    Area: "",
+    Area_Under: "",
+    Survey: "",
+    GPS: "",
+    Seed: "",
+    Pest: "",
+    Crops: "",
+    K_main: "",
+    K_Intercrop: "",
+    R_main: "",
+    R_intercrop: "",
+    Z_main: "",
+    Z_Intercrop: "",
+    P_main: "",
+    P_intercrop: "",
+    Details: "",
+    Crop_History: "",
   });
 
-  const inputEvent = (event) => {
-    console.log(event.target.value);
-    setName(event.target.value);
+  const inputEvent = (event, datasheet) => {
+    event.preventDefault();
+    let Newformdata = {
+      ...formdata,
+      [event.target.name]: event.target.value,
+    };
+    setformdata(Newformdata);
+  };
+
+  useEffect(() => {}, [formdata]);
+
+  const SendToApi = () => {
+    if (
+      formdata.Name === "" ||
+      formdata.Area === "" ||
+      formdata.Area_Under === "" ||
+      formdata.Crop_History === "" ||
+      formdata.Crops === "" ||
+      formdata.Details === "" ||
+      formdata.GPS === "" ||
+      formdata.K_Intercrop === "" ||
+      formdata.K_main === "" ||
+      formdata.P_intercrop === "" ||
+      formdata.P_main === "" ||
+      formdata.Pest === "" ||
+      formdata.Z_Intercrop === "" ||
+      formdata.Z_main === "" ||
+      formdata.R_main === "" ||
+      formdata.R_intercrop === "" ||
+      formdata.Survey === ""
+    ) {
+      alert("Enter All details");
+    } else {
+      fetch(
+        "https://foodchainid.herokuapp.com/foodchainid_form1/addindvfarmunit",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            Name: formdata.Name,
+            Area: formdata.Area,
+            Area_Under: formdata.Area_Under,
+            Survey: formdata.Survey,
+            GPS: formdata.GPS,
+
+            Seed: formdata.Seed,
+            Pest: formdata.Pest,
+            Crops: formdata.Crops,
+
+            K_main: formdata.K_main,
+            K_Intercrop: formdata.K_Intercrop,
+            R_main: formdata.R_main,
+            R_intercrop: formdata.R_intercrop,
+            Z_main: formdata.Z_main,
+            Z_Intercrop: formdata.Z_Intercrop,
+            P_main: formdata.P_main,
+            P_intercrop: formdata.P_intercrop,
+            Details: formdata.Details,
+            Crop_History: formdata.Crop_History,
+            userId: "62c403e18e1a710854e6e856",
+          }),
+        }
+      ).then((res) => {
+        res.json().then((data) => {
+          console.log(data);
+        });
+      });
+    }
   };
 
   return (
     <section className="section">
+      {JSON.stringify(formdata)}
       <div className="container card card-body ">
         <h4 className="center">Farming unit information</h4>
 
@@ -47,17 +110,17 @@ Crop_History :"",
             <Table responsive striped bordered hover size="sm">
               <thead>
                 <tr>
-                  <th className="col-md-4" name="sno">
+                  <th className="col-md-4" >
                     Name and address of the farm
                   </th>
-                  <th> 
-                  <input
-                    name="Name"
-                    onChange={inputEvent}
-                    value={fname.Name}
-                    type="text"
-                    placeholder=""
-                  />
+                  <th>
+                    <input
+                      name="Name"
+                      onChange={inputEvent}
+                      value={formdata.Name}
+                      type="text"
+                      placeholder=""
+                    />
                   </th>
                 </tr>
                 <tr>
@@ -65,56 +128,56 @@ Crop_History :"",
                     Total Area (Ha)
                   </th>
                   <th>
-                  <input
-                    name="Area"
-                    onChange={inputEvent}
-                    value={fname.Area}
-                    type="text"
-                    placeholder=""
-                  />
+                    <input
+                      name="Area"
+                      onChange={inputEvent}
+                      value={formdata.Area}
+                      type="text"
+                      placeholder=""
+                    />
                   </th>
                 </tr>
                 <tr>
                   <th className="col-md-4" name="sno">
                     Area (Ha) under Certification
                   </th>
-                  <th> 
-                  <input
-                    name="Area_Under"
-                    onChange={inputEvent}
-                    value={fname.Area_Under}
-                    type="text"
-                    placeholder=""
-                  />
+                  <th>
+                    <input
+                      name="Area_Under"
+                      onChange={inputEvent}
+                      value={formdata.Area_Under}
+                      type="text"
+                      placeholder=""
+                    />
                   </th>
                 </tr>
                 <tr>
                   <th className="col-md-4" name="sno">
                     Survey No.
                   </th>
-                  <th> 
-                  <input
-                    name="Survey"
-                    onChange={inputEvent}
-                    value={fname.Survey}
-                    type="text"
-                    placeholder=""
-                  />
+                  <th>
+                    <input
+                      name="Survey"
+                      onChange={inputEvent}
+                      value={formdata.Survey}
+                      type="text"
+                      placeholder=""
+                    />
                   </th>
                 </tr>
                 <tr>
                   <th className="col-md-4" name="sno">
                     GPS co-ordinates
                   </th>
-                  <th> 
-                  <input
-                    name=" GPS"
-                    onChange={inputEvent}
-                    value={fname. GPS}
-                    type="text"
-                    placeholder=""
-                  />
-                  </th> 
+                  <th>
+                    <input
+                      name="GPS"
+                      onChange={inputEvent}
+                      value={formdata.GPS}
+                      type="text"
+                      placeholder=""
+                    />
+                  </th>
                 </tr>
 
                 <tr>
@@ -140,7 +203,7 @@ Crop_History :"",
                     <input
                       name="Seed"
                       onChange={inputEvent}
-                      value={fname.Seed}
+                      value={formdata.Seed}
                       type="text"
                       placeholder=""
                     />
@@ -149,7 +212,7 @@ Crop_History :"",
                     <input
                       name="Pest"
                       onChange={inputEvent}
-                      value={fname.Pest}
+                      value={formdata.Pest}
                       type="text"
                       placeholder=""
                     />
@@ -158,7 +221,7 @@ Crop_History :"",
                     <input
                       name="Crops"
                       onChange={inputEvent}
-                      value={fname.Crops}
+                      value={formdata.Crops}
                       type="text"
                       placeholder=""
                     />
@@ -227,7 +290,7 @@ Crop_History :"",
                         <input
                           name="K_main"
                           onChange={inputEvent}
-                          value={fname.K_main}
+                          value={formdata.K_main}
                           type="text"
                           placeholder=""
                         />
@@ -236,7 +299,7 @@ Crop_History :"",
                         <input
                           name="K_Intercrop"
                           onChange={inputEvent}
-                          value={fname.K_Intercrop}
+                          value={formdata.K_Intercrop}
                           type="text"
                           placeholder=""
                         />
@@ -246,9 +309,9 @@ Crop_History :"",
                     <td>
                       <td>
                         <input
-                          name=" R_main"
+                          name="R_main"
                           onChange={inputEvent}
-                          value={fname.R_main}
+                          value={formdata.R_main}
                           type="text"
                           placeholder=""
                         />
@@ -257,7 +320,7 @@ Crop_History :"",
                         <input
                           name="R_intercrop"
                           onChange={inputEvent}
-                          value={fname.R_intercrop}
+                          value={formdata.R_intercrop}
                           type="text"
                           placeholder=" "
                         />
@@ -268,7 +331,7 @@ Crop_History :"",
                         <input
                           name="Z_main"
                           onChange={inputEvent}
-                          value={fname.Z_main}
+                          value={formdata.Z_main}
                           type="text"
                           placeholder=""
                         />
@@ -277,7 +340,7 @@ Crop_History :"",
                         <input
                           name="Z_Intercrop"
                           onChange={inputEvent}
-                          value={fname.Z_Intercrop}
+                          value={formdata.Z_Intercrop}
                           type="text"
                           placeholder=" Rate"
                         />
@@ -287,9 +350,9 @@ Crop_History :"",
                     <td>
                       <td>
                         <input
-                          name="P_main "
+                          name="P_main"
                           onChange={inputEvent}
-                          value={fname.P_main }
+                          value={formdata.P_main}
                           type="text"
                           placeholder=""
                         />
@@ -298,7 +361,7 @@ Crop_History :"",
                         <input
                           name="P_intercrop"
                           onChange={inputEvent}
-                          value={fname.P_intercrop}
+                          value={formdata.P_intercrop}
                           type="text"
                           placeholder=" Rate"
                         />
@@ -316,33 +379,39 @@ Crop_History :"",
                     Are you doing any processing
                   </th>
                   <th>
-                  <input
-                    name="Details"
-                    onChange={inputEvent}
-                    value={fname.Details}
-                    type="text"
-                    placeholder=""
-                  />
-                   </th>
+                    <input
+                      name="Details"
+                      onChange={inputEvent}
+                      value={formdata.Details}
+                      type="text"
+                      placeholder=""
+                    />
+                  </th>
                 </tr>
                 <tr>
                   <th className="col-md-4" name="sno">
                     Crop history (Last two seasons):
                   </th>
                   <th>
-                  <input
-                    name="Crop_History"
-                    onChange={inputEvent}
-                    value={fname.Crop_History}
-                    type="text"
-                    placeholder=""
-                  />
-                   </th>
+                    <input
+                      name="Crop_History"
+                      onChange={inputEvent}
+                      value={formdata.Crop_History}
+                      type="text"
+                      placeholder=""
+                    />
+                  </th>
                 </tr>
               </thead>
             </Table>
+            <button
+              onClick={() => {
+                SendToApi();
+              }}
+            >
+              Submit
+            </button>
 
-           
             <label>
               (Note: If total area of farmers having more than 4 Ha area is 50%
               or more than total group area, then group cannot be accepted for

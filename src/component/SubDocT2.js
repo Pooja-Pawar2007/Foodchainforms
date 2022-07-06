@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState,  useEffect } from "react";
 import { Form, Table, Row, Col } from "react-bootstrap";
 
 export default function SubDocT2() {
-  const [fname, setName] = useState({
+  const [formdata, setformdata] = useState({
     ICS_copy: "",
     NPOP_Map: "",
     OSP: "",
@@ -13,13 +13,33 @@ export default function SubDocT2() {
     NOC_Doc: "",
   });
 
-  const inputEvent = (event) => {
-    console.log(event.target.value);
-    setName(event.target.value);
+ 
+
+  const inputEvent = (event, i) => {
+    console.log(i);
+    if (i >= 0) {
+      console.log("hello");
+      let temparr = [...formdata.NumberOfMembers];
+      console.log(temparr);
+      temparr[i][event.target.name] = event.target.value;
+      let Newformdata = {
+        ...formdata,
+        NumberOfMembers: [...temparr],
+      };
+      setformdata(Newformdata);
+    } else {
+      let Newformdata = {
+        ...formdata,
+        [event.target.name]: event.target.value,
+      };
+      setformdata(Newformdata);
+    }
   };
+
+  useEffect(() => {}, [formdata]);
   return (
     <div className="container card card-body ">
-    
+      {JSON.stringify(formdata)}
           <h6> Document Check Records </h6>
           <hr />
           <Table estriped bordered hover size="sm">
@@ -51,7 +71,7 @@ export default function SubDocT2() {
                       type="file"
                       name=" ICS_copy "
                       onChange={inputEvent}
-                      value={fname.ICS_copy}
+                      value={formdata.ICS_copy}
                     />
                   </Form.Group>
                 </tr>
@@ -67,7 +87,7 @@ export default function SubDocT2() {
                       name=" NPOP_Map
                       "
                       onChange={inputEvent}
-                      value={fname.NPOP_Map}
+                      value={formdata.NPOP_Map}
                     />
                   </Form.Group>
                 </tr>
@@ -82,7 +102,7 @@ export default function SubDocT2() {
                       type="file"
                       name=" OSP"
                       onChange={inputEvent}
-                      value={fname.OSP}
+                      value={formdata.OSP}
                     />
                   </Form.Group>
                 </tr>
@@ -97,7 +117,7 @@ export default function SubDocT2() {
                       type="file"
                       name=" Field_History "
                       onChange={inputEvent}
-                      value={fname.Field_History}
+                      value={formdata.Field_History}
                     />
                   </Form.Group>
                 </tr>
@@ -113,7 +133,7 @@ export default function SubDocT2() {
                       name=" Feild_Specification
                       "
                       onChange={inputEvent}
-                      value={fname.Feild_Specification}
+                      value={formdata.Feild_Specification}
                     />
                   </Form.Group>
                 </tr>
@@ -133,7 +153,7 @@ export default function SubDocT2() {
 
                       "
                       onChange={inputEvent}
-                      value={fname.GMO_Declaration}
+                      value={formdata.GMO_Declaration}
                     />
                   </Form.Group>
                 </tr>
@@ -150,7 +170,7 @@ export default function SubDocT2() {
 
                       "
                       onChange={inputEvent}
-                      value={fname.Farmer_List}
+                      value={formdata.Farmer_List}
                     />
                   </Form.Group>
                 </tr>
@@ -169,7 +189,7 @@ export default function SubDocT2() {
                       name=" NOC_Doc
                       "
                       onChange={inputEvent}
-                      value={fname.NOC_Doc}
+                      value={formdata.NOC_Doc}
                     />
                   </Form.Group>
                 </tr>

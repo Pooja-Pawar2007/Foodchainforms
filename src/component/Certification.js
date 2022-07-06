@@ -1,20 +1,57 @@
-import React, { useState } from "react";
+import React, { useState,  useEffect } from "react";
 import { Form, Table, Row, Col } from "react-bootstrap";
 
 export default function Certification() {
-  const [fname, setName] = useState({
+  const [formdata,setformdata] = useState({
     Certification: "",
     Standard: "",
     Time: "",
   });
 
-  const inputEvent = (event) => {
-    console.log(event.target.value);
-    setName(event.target.value);
+  const inputEvent = (event, datasheet) => {
+   event.preventDefault()
+    let Newformdata = {
+
+      ...formdata,
+      [event.target.name]: event.target.value,
+    };
+    setformdata(Newformdata);
   };
+
+
+  useEffect(() => {}, [formdata]);
+
+
+  const SendToApi = () => {
+    if(formdata.Certification===""|| formdata.Standard===""||formdata.Time===""){
+      alert("Enter all details")
+    }
+    else{ 
+    fetch("https://foodchainid.herokuapp.com/foodchainid_form1/addcertinfo",
+        {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:  JSON.stringify({ 
+              Certification: formdata.Certification,
+              Standard:formdata.Standard,
+              Time: formdata.Time,
+              userId: "62c403e18e1a710854e6e856",
+
+            })
+        }
+    ).then((res)=>{res.json().then((data)=>{console.log(data)})})
+
+  }
+
+
+
+}
+  
   return (
     <div className="container card card-body ">
-     
+      {JSON.stringify(formdata)}
           <center>
             {" "}
             <h6>Certification Information</h6>
@@ -26,9 +63,9 @@ export default function Certification() {
               </Form.Label>
               <Col sm={5}>
                 <Form.Select
-                  name=" Certification"
+                  name="Certification"
                   onChange={inputEvent}
-                  value={fname.Certification}
+                  value={formdata.Certification}
                 >
                   <option value="Addition ">Addition </option>
                   <option value="Change">Change</option>
@@ -44,8 +81,9 @@ export default function Certification() {
                 <Form.Select
                   name="Standard"
                   onChange={inputEvent}
-                  value={fname.Standard}
+                  value={formdata.Standard}
                 >
+                  <option>select</option>
                   <option value="NPOP ">NPOP</option>
                   <option value="Other">Other</option>
                 </Form.Select>
@@ -59,9 +97,9 @@ export default function Certification() {
               </Form.Label>
               <Col sm={5}>
                 <Form.Select
-                  name=" Time"
+                  name="Time"
                   onChange={inputEvent}
-                  value={fname.Time}
+                  value={formdata.Time}
                 >
                   <option value="Beginning ">Beginning </option>
                   <option value="one_Year">Since Last One Year</option>
@@ -69,6 +107,13 @@ export default function Certification() {
                 </Form.Select>
               </Col>
             </Form.Group>
+            <button
+        onClick={() => {
+          SendToApi();
+        }}
+      >
+        Submit
+      </button>
           </div>
         </div>
     
