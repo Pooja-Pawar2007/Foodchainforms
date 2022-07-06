@@ -6,25 +6,13 @@ export default function Anual_Certification() {
    fees: "",
   });
 
-  const inputEvent = (event, i) => {
-    console.log(i);
-    if (i >= 0) {
-      console.log("hello");
-      let temparr = [...formdata.NumberOfMembers];
-      console.log(temparr);
-      temparr[i][event.target.name] = event.target.value;
-      let Newformdata = {
-        ...formdata,
-        NumberOfMembers: [...temparr],
-      };
-      setformdata(Newformdata);
-    } else {
-      let Newformdata = {
-        ...formdata,
-        [event.target.name]: event.target.value,
-      };
-      setformdata(Newformdata);
-    }
+  const inputEvent = (event, datasheet) => {
+    event.preventDefault();
+    let Newformdata = {
+      ...formdata,
+      [event.target.name]: event.target.value,
+    };
+    setformdata(Newformdata);
   };
 
   return (
